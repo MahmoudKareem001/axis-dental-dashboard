@@ -25,27 +25,29 @@
 
 <div class="container">
   <div class="cards">
-    <div class="card">
-      <h3>الطلبات اليوم</h3>
-      <p>0</p>
-    </div>
-
-    <div class="card">
-      <h3>قيد العمل</h3>
-      <p>0</p>
-    </div>
-
-    <div class="card">
-      <h3>جاهزة للتسليم</h3>
-      <p>0</p>
-    </div>
-
-    <div class="card">
-      <h3>مواد ناقصة</h3>
-      <p>0</p>
-    </div>
+    <div class="card"><h3>الطلبات اليوم</h3><p>0</p></div>
+    <div class="card"><h3>قيد العمل</h3><p>0</p></div>
+    <div class="card"><h3>جاهزة للتسليم</h3><p>0</p></div>
+    <div class="card"><h3>مواد ناقصة</h3><p>0</p></div>
   </div>
+
+  <h2>الطلبات</h2>
+  <button onclick="addOrder()">➕ إضافة طلب جديد</button>
+
+  <table border="1" width="100%" style="margin-top:15px;background:white;">
+    <thead>
+      <tr>
+        <th>رقم الطلب</th>
+        <th>اسم الطبيب</th>
+        <th>اسم المريض</th>
+        <th>نوع العمل</th>
+        <th>الحالة</th>
+      </tr>
+    </thead>
+    <tbody id="ordersTable"></tbody>
+  </table>
 </div>
+
 <script src="app.js"></script>
 </body>
 </html>
