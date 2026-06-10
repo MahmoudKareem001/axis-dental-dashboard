@@ -7,8 +7,8 @@ font-family:Tahoma,sans-serif;
 
 body{
 display:flex;
+flex-direction:row-reverse;
 background:#eef2f7;
-direction:ltr;
 }
 
 .sidebar{
