@@ -17,13 +17,15 @@ function renderOrders() {
         <td>${order.workType}</td>
         <td>
           <select onchange="changeStatus(${index}, this.value)">
-            <option ${order.status === "قيد العمل" ? "selected" : ""}>قيد العمل</option>
-            <option ${order.status === "جاهز" ? "selected" : ""}>جاهز</option>
-            <option ${order.status === "لم يجهز" ? "selected" : ""}>لم يجهز</option>
-            <option ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
-            <option ${order.status === "بانتظار التصوير" ? "selected" : ""}>بانتظار التصوير</option>
-            <option ${order.status === "قيد التصوير" ? "selected" : ""}>قيد التصوير</option>
+            <option ${order.status === "استلام الحالة" ? "selected" : ""}>استلام الحالة</option>
+            <option ${order.status === "تصميم" ? "selected" : ""}>تصميم</option>
+            <option ${order.status === "تصوير" ? "selected" : ""}>تصوير</option>
+            <option ${order.status === "زركون" ? "selected" : ""}>زركون</option>
+            <option ${order.status === "بورسلان" ? "selected" : ""}>بورسلان</option>
+            <option ${order.status === "تشطيب" ? "selected" : ""}>تشطيب</option>
+            <option ${order.status === "جاهز للتسليم" ? "selected" : ""}>جاهز للتسليم</option>
             <option ${order.status === "تم التسليم" ? "selected" : ""}>تم التسليم</option>
+            <option ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
           </select>
         </td>
         <td>
@@ -47,10 +49,10 @@ function addOrder() {
   if (!workType) return;
 
   orders.push({
-    doctor: doctor,
-    patient: patient,
-    workType: workType,
-    status: "قيد العمل"
+    doctor,
+    patient,
+    workType,
+    status: "استلام الحالة"
   });
 
   saveOrders();
