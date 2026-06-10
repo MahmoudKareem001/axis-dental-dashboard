@@ -6,17 +6,19 @@ font-family:Tahoma,sans-serif;
 }
 
 body{
-display:flex;
-flex-direction:row-reverse;
 background:#eef2f7;
 }
 
 .sidebar{
 width:260px;
-min-height:100vh;
+height:100vh;
 background:#0f172a;
 padding:20px;
 color:white;
+position:fixed;
+right:0;
+top:0;
+overflow-y:auto;
 }
 
 .logo{
@@ -51,7 +53,7 @@ background:linear-gradient(90deg,#c93a63,#a855f7);
 }
 
 .main{
-flex:1;
+margin-right:260px;
 padding:25px;
 direction:rtl;
 }
@@ -107,6 +109,11 @@ td{
 padding:12px;
 text-align:center;
 border-bottom:1px solid #eee;
+}
+
+select{
+padding:6px;
+border-radius:6px;
 }
 
 button{
