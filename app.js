@@ -1,4 +1,5 @@
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let editIndex = null;
 
 function showSection(sectionId) {
   document.querySelectorAll(".section").forEach(section => {
@@ -36,7 +37,7 @@ function addOrder() {
     return;
   }
 
-  orders.push({
+  const orderData = {
     doctor,
     patient,
     workType,
@@ -44,12 +45,22 @@ function addOrder() {
     deliveryDate,
     technician,
     notes,
-    status: "قيد العمل"
-  });
+    status: editIndex !== null ? orders[editIndex].status : "قيد العمل"
+  };
+
+  if (editIndex !== null) {
+    orders[editIndex] = orderData;
+    editIndex = null;
+  } else {
+    orders.push(orderData);
+  }
 
   saveOrders();
   renderOrders();
+  clearForm();
+}
 
+function clearForm() {
   document.getElementById("doctorInput").value = "";
   document.getElementById("patientInput").value = "";
   document.getElementById("workTypeInput").value = "";
@@ -89,6 +100,7 @@ function renderOrders() {
         <td>${order.notes || ""}</td>
 
         <td>
+          <button onclick="editOrder(${index})">✏️</button>
           <button onclick="deleteOrder(${index})">🗑️</button>
         </td>
       </tr>
@@ -96,6 +108,22 @@ function renderOrders() {
   });
 
   updateDashboard();
+}
+
+function editOrder(index) {
+  const order = orders[index];
+
+  document.getElementById("doctorInput").value = order.doctor;
+  document.getElementById("patientInput").value = order.patient;
+  document.getElementById("workTypeInput").value = order.workType;
+  document.getElementById("shadeInput").value = order.shade || "";
+  document.getElementById("deliveryDateInput").value = order.deliveryDate || "";
+  document.getElementById("technicianInput").value = order.technician || "";
+  document.getElementById("notesInput").value = order.notes || "";
+
+  editIndex = index;
+
+  alert("عدّل البيانات من النموذج فوق، ثم اضغط حفظ الطلب");
 }
 
 function changeStatus(index, status) {
@@ -108,7 +136,6 @@ function deleteOrder(index) {
   if (!confirm("هل تريد حذف الطلب؟")) return;
 
   orders.splice(index, 1);
-
   saveOrders();
   renderOrders();
 }
