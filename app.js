@@ -1,4 +1,5 @@
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let editIndex = null;
 
 function showSection(sectionId) {
   document.querySelectorAll(".section").forEach(section => {
@@ -13,7 +14,6 @@ function saveOrders() {
 }
 
 function updateDashboard() {
-
   document.getElementById("todayOrders").innerText = orders.length;
 
   document.getElementById("workingOrders").innerText =
@@ -24,27 +24,24 @@ function updateDashboard() {
     ).length;
 
   document.getElementById("readyOrders").innerText =
-    orders.filter(order =>
-      order.status === "جاهز للتسليم"
-    ).length;
+    orders.filter(order => order.status === "جاهز للتسليم").length;
 }
 
 function addOrder() {
-
-  const doctor = document.getElementById("doctorInput").value;
-  const patient = document.getElementById("patientInput").value;
+  const doctor = document.getElementById("doctorInput").value.trim();
+  const patient = document.getElementById("patientInput").value.trim();
   const workType = document.getElementById("workTypeInput").value;
-  const shade = document.getElementById("shadeInput").value;
+  const shade = document.getElementById("shadeInput").value.trim();
   const deliveryDate = document.getElementById("deliveryDateInput").value;
-  const technician = document.getElementById("technicianInput").value;
-  const notes = document.getElementById("notesInput").value;
+  const technician = document.getElementById("technicianInput").value.trim();
+  const notes = document.getElementById("notesInput").value.trim();
 
   if (!doctor || !patient || !workType) {
     alert("يرجى تعبئة اسم الطبيب واسم المريض ونوع العمل");
     return;
   }
 
-  orders.push({
+  const orderData = {
     doctor,
     patient,
     workType,
@@ -52,12 +49,22 @@ function addOrder() {
     deliveryDate,
     technician,
     notes,
-    status: "استلام الحالة"
-  });
+    status: editIndex !== null ? orders[editIndex].status : "استلام الحالة"
+  };
+
+  if (editIndex !== null) {
+    orders[editIndex] = orderData;
+    editIndex = null;
+  } else {
+    orders.push(orderData);
+  }
 
   saveOrders();
   renderOrders();
+  clearOrderForm();
+}
 
+function clearOrderForm() {
   document.getElementById("doctorInput").value = "";
   document.getElementById("patientInput").value = "";
   document.getElementById("workTypeInput").value = "";
@@ -68,14 +75,12 @@ function addOrder() {
 }
 
 function renderOrders() {
-
   const table = document.getElementById("ordersTable");
   if (!table) return;
 
   table.innerHTML = "";
 
   orders.forEach((order, index) => {
-
     table.innerHTML += `
       <tr>
         <td>${index + 1}</td>
@@ -85,9 +90,8 @@ function renderOrders() {
         <td>${order.shade || ""}</td>
         <td>${order.deliveryDate || ""}</td>
         <td>${order.technician || ""}</td>
-
         <td>
-          <select onchange="changeStatus(${index}, this.value)">
+          <select class="${statusClass(order.status)}" onchange="changeStatus(${index}, this.value)">
             <option value="استلام الحالة" ${order.status==="استلام الحالة"?"selected":""}>استلام الحالة</option>
             <option value="تصميم" ${order.status==="تصميم"?"selected":""}>تصميم</option>
             <option value="تصوير" ${order.status==="تصوير"?"selected":""}>تصوير</option>
@@ -99,19 +103,37 @@ function renderOrders() {
             <option value="ملغي" ${order.status==="ملغي"?"selected":""}>ملغي</option>
           </select>
         </td>
-
         <td>${order.notes || ""}</td>
-
         <td>
-          <button onclick="deleteOrder(${index})">
-            🗑️
-          </button>
+          <button onclick="editOrder(${index})">✏️</button>
+          <button onclick="deleteOrder(${index})">🗑️</button>
         </td>
       </tr>
     `;
   });
 
   updateDashboard();
+}
+
+function statusClass(status) {
+  if (status === "جاهز للتسليم") return "status-ready";
+  if (status === "تم التسليم") return "status-done";
+  if (status === "ملغي") return "status-cancel";
+  return "status-working";
+}
+
+function editOrder(index) {
+  const order = orders[index];
+
+  document.getElementById("doctorInput").value = order.doctor;
+  document.getElementById("patientInput").value = order.patient;
+  document.getElementById("workTypeInput").value = order.workType;
+  document.getElementById("shadeInput").value = order.shade || "";
+  document.getElementById("deliveryDateInput").value = order.deliveryDate || "";
+  document.getElementById("technicianInput").value = order.technician || "";
+  document.getElementById("notesInput").value = order.notes || "";
+
+  editIndex = index;
 }
 
 function changeStatus(index, status) {
@@ -121,11 +143,9 @@ function changeStatus(index, status) {
 }
 
 function deleteOrder(index) {
-
   if (!confirm("هل تريد حذف الطلب؟")) return;
 
   orders.splice(index, 1);
-
   saveOrders();
   renderOrders();
 }
