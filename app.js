@@ -6,7 +6,6 @@ function saveOrders() {
 }
 
 function renderOrders() {
-
   const table = document.getElementById("ordersTable");
   table.innerHTML = "";
 
@@ -29,7 +28,6 @@ function renderOrders() {
 }
 
 function addOrder() {
-
   const doctor = prompt("اسم الطبيب");
   if (!doctor) return;
 
@@ -52,11 +50,9 @@ function addOrder() {
 }
 
 function deleteOrder(index) {
-
   if (!confirm("حذف الطلب؟")) return;
 
   orders.splice(index, 1);
-
   saveOrders();
   renderOrders();
 }
