@@ -16,7 +16,17 @@ function renderOrders() {
         <td>${order.doctor}</td>
         <td>${order.patient}</td>
         <td>${order.workType}</td>
-        <td>${order.status}</td>
+        <td>
+          <select onchange="changeStatus(${index}, this.value)">
+            <option value="قيد العمل" ${order.status === "قيد العمل" ? "selected" : ""}>قيد العمل</option>
+            <option value="جاهز" ${order.status === "جاهز" ? "selected" : ""}>جاهز</option>
+            <option value="لم يجهز" ${order.status === "لم يجهز" ? "selected" : ""}>لم يجهز</option>
+            <option value="ملغي" ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
+            <option value="بانتظار التصوير" ${order.status === "بانتظار التصوير" ? "selected" : ""}>بانتظار التصوير</option>
+            <option value="قيد التصوير" ${order.status === "قيد التصوير" ? "selected" : ""}>قيد التصوير</option>
+            <option value="تم التسليم" ${order.status === "تم التسليم" ? "selected" : ""}>تم التسليم</option>
+          </select>
+        </td>
         <td>
           <button onclick="deleteOrder(${index})">حذف</button>
         </td>
@@ -45,6 +55,12 @@ function addOrder() {
     status: "قيد العمل"
   });
 
+  saveOrders();
+  renderOrders();
+}
+
+function changeStatus(index, newStatus) {
+  orders[index].status = newStatus;
   saveOrders();
   renderOrders();
 }
