@@ -7,34 +7,39 @@
 </head>
 <body>
 
-<header>
-  <h1>AXIS Dental Laboratory</h1>
-  <p>لوحة إدارة مختبر الأسنان</p>
-</header>
+<aside class="sidebar">
+  <div class="logo">
+    <h1>AXIS</h1>
+    <p>Dental Laboratory</p>
+  </div>
 
-<nav>
-  <button>الرئيسية</button>
-  <button>الطلبات</button>
-  <button>المخزون</button>
-  <button>الموظفين</button>
-  <button>التصوير</button>
-  <button>الحسابات</button>
-  <button>الموردين</button>
-  <button>التقارير</button>
-</nav>
+  <div class="menu">
+    <button>🏠 الرئيسية</button>
+    <button>📋 الطلبات</button>
+    <button>📦 المخزون</button>
+    <button>🦷 مراحل العمل</button>
+    <button>📷 التصوير</button>
+    <button>👨‍🔬 الفنيون</button>
+    <button>👥 الموظفون</button>
+    <button>💰 الحسابات</button>
+    <button>🚚 الموردون</button>
+    <button>📊 التقارير</button>
+    <button>⚙️ الإعدادات</button>
+  </div>
+</aside>
 
-<div class="container">
+<main class="main">
   <div class="cards">
-    <div class="card"><h3>الطلبات اليوم</h3><p id="todayOrders">0</p></div>
-    <div class="card"><h3>قيد العمل</h3><p>0</p></div>
-    <div class="card"><h3>جاهزة للتسليم</h3><p>0</p></div>
-    <div class="card"><h3>مواد ناقصة</h3><p>0</p></div>
+    <div class="card"><h3>📋 الطلبات اليوم</h3><p id="todayOrders">0</p></div>
+    <div class="card"><h3>⏳ قيد العمل</h3><p>0</p></div>
+    <div class="card"><h3>✅ جاهزة للتسليم</h3><p>0</p></div>
+    <div class="card"><h3>📦 مواد ناقصة</h3><p>0</p></div>
   </div>
 
   <h2>الطلبات</h2>
   <button onclick="addOrder()">➕ إضافة طلب جديد</button>
 
-  <table border="1" width="100%" style="margin-top:15px;background:white;">
+  <table>
     <thead>
       <tr>
         <th>رقم الطلب</th>
@@ -47,7 +52,7 @@
     </thead>
     <tbody id="ordersTable"></tbody>
   </table>
-</div>
+</main>
 
 <script src="app.js"></script>
 </body>
