@@ -1,11 +1,21 @@
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
+function showSection(sectionId) {
+  document.querySelectorAll(".section").forEach(section => {
+    section.classList.remove("active");
+  });
+
+  document.getElementById(sectionId).classList.add("active");
+}
+
 function saveOrders() {
   localStorage.setItem("orders", JSON.stringify(orders));
 }
 
 function renderOrders() {
   const table = document.getElementById("ordersTable");
+  if (!table) return;
+
   table.innerHTML = "";
 
   orders.forEach((order, index) => {
@@ -35,7 +45,17 @@ function renderOrders() {
     `;
   });
 
+  updateDashboard();
+}
+
+function updateDashboard() {
   document.getElementById("todayOrders").innerText = orders.length;
+
+  document.getElementById("workingOrders").innerText =
+    orders.filter(o => o.status !== "جاهز للتسليم" && o.status !== "تم التسليم" && o.status !== "ملغي").length;
+
+  document.getElementById("readyOrders").innerText =
+    orders.filter(o => o.status === "جاهز للتسليم").length;
 }
 
 function addOrder() {
@@ -62,6 +82,7 @@ function addOrder() {
 function changeStatus(index, status) {
   orders[index].status = status;
   saveOrders();
+  renderOrders();
 }
 
 function deleteOrder(index) {
