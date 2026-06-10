@@ -1,4 +1,32 @@
-let orderNumber = 1;
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let orderNumber = orders.length + 1;
+
+function saveOrders() {
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+function renderOrders() {
+
+  const table = document.getElementById("ordersTable");
+  table.innerHTML = "";
+
+  orders.forEach((order, index) => {
+    table.innerHTML += `
+      <tr>
+        <td>${order.id}</td>
+        <td>${order.doctor}</td>
+        <td>${order.patient}</td>
+        <td>${order.workType}</td>
+        <td>${order.status}</td>
+        <td>
+          <button onclick="deleteOrder(${index})">حذف</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("todayOrders").innerText = orders.length;
+}
 
 function addOrder() {
 
@@ -11,15 +39,26 @@ function addOrder() {
   const workType = prompt("نوع العمل");
   if (!workType) return;
 
-  const table = document.getElementById("ordersTable");
+  orders.push({
+    id: orderNumber++,
+    doctor,
+    patient,
+    workType,
+    status: "قيد العمل"
+  });
 
-  table.innerHTML += `
-    <tr>
-      <td>${orderNumber++}</td>
-      <td>${doctor}</td>
-      <td>${patient}</td>
-      <td>${workType}</td>
-      <td>قيد العمل</td>
-    </tr>
-  `;
+  saveOrders();
+  renderOrders();
 }
+
+function deleteOrder(index) {
+
+  if (!confirm("حذف الطلب؟")) return;
+
+  orders.splice(index, 1);
+
+  saveOrders();
+  renderOrders();
+}
+
+renderOrders();
