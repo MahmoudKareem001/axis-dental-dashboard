@@ -32,27 +32,10 @@
 <section id="home" class="section active">
 
 <div class="cards">
-
-<div class="card">
-<h3>إجمالي الطلبات</h3>
-<p id="todayOrders">0</p>
-</div>
-
-<div class="card">
-<h3>قيد العمل</h3>
-<p id="workingOrders">0</p>
-</div>
-
-<div class="card">
-<h3>جاهزة للتسليم</h3>
-<p id="readyOrders">0</p>
-</div>
-
-<div class="card">
-<h3>مواد ناقصة</h3>
-<p>0</p>
-</div>
-
+<div class="card"><h3>إجمالي الطلبات</h3><p id="todayOrders">0</p></div>
+<div class="card"><h3>قيد العمل</h3><p id="workingOrders">0</p></div>
+<div class="card"><h3>جاهزة للتسليم</h3><p id="readyOrders">0</p></div>
+<div class="card"><h3>مواد ناقصة</h3><p>0</p></div>
 </div>
 
 </section>
@@ -61,25 +44,47 @@
 
 <h2>الطلبات</h2>
 
-<button onclick="addOrder()">
-➕ إضافة طلب جديد
-</button>
+<div class="order-form">
+<input id="doctorInput" type="text" placeholder="اسم الطبيب">
+<input id="patientInput" type="text" placeholder="اسم المريض">
+
+<select id="workTypeInput">
+<option value="">نوع العمل</option>
+<option>زركون</option>
+<option>بورسلان</option>
+<option>Emax</option>
+<option>طقم كامل</option>
+<option>طقم جزئي</option>
+<option>تقويم</option>
+<option>واقي ليلي</option>
+<option>تصوير</option>
+</select>
+
+<input id="shadeInput" type="text" placeholder="لون السن">
+<input id="deliveryDateInput" type="date">
+<input id="technicianInput" type="text" placeholder="الفني المسؤول">
+<input id="notesInput" type="text" placeholder="ملاحظات">
+
+<button onclick="addOrder()">💾 حفظ الطلب</button>
+</div>
 
 <table>
-
 <thead>
 <tr>
-<th>رقم الطلب</th>
-<th>اسم الطبيب</th>
-<th>اسم المريض</th>
-<th>نوع العمل</th>
+<th>رقم</th>
+<th>الطبيب</th>
+<th>المريض</th>
+<th>العمل</th>
+<th>اللون</th>
+<th>تاريخ التسليم</th>
+<th>الفني</th>
 <th>الحالة</th>
+<th>ملاحظات</th>
 <th>حذف</th>
 </tr>
 </thead>
 
 <tbody id="ordersTable"></tbody>
-
 </table>
 
 </section>
