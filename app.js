@@ -1,5 +1,4 @@
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
-let orderNumber = orders.length + 1;
 
 function saveOrders() {
   localStorage.setItem("orders", JSON.stringify(orders));
@@ -12,19 +11,19 @@ function renderOrders() {
   orders.forEach((order, index) => {
     table.innerHTML += `
       <tr>
-        <td>${order.id}</td>
+        <td>${index + 1}</td>
         <td>${order.doctor}</td>
         <td>${order.patient}</td>
         <td>${order.workType}</td>
         <td>
           <select onchange="changeStatus(${index}, this.value)">
-            <option value="قيد العمل" ${order.status === "قيد العمل" ? "selected" : ""}>قيد العمل</option>
-            <option value="جاهز" ${order.status === "جاهز" ? "selected" : ""}>جاهز</option>
-            <option value="لم يجهز" ${order.status === "لم يجهز" ? "selected" : ""}>لم يجهز</option>
-            <option value="ملغي" ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
-            <option value="بانتظار التصوير" ${order.status === "بانتظار التصوير" ? "selected" : ""}>بانتظار التصوير</option>
-            <option value="قيد التصوير" ${order.status === "قيد التصوير" ? "selected" : ""}>قيد التصوير</option>
-            <option value="تم التسليم" ${order.status === "تم التسليم" ? "selected" : ""}>تم التسليم</option>
+            <option ${order.status === "قيد العمل" ? "selected" : ""}>قيد العمل</option>
+            <option ${order.status === "جاهز" ? "selected" : ""}>جاهز</option>
+            <option ${order.status === "لم يجهز" ? "selected" : ""}>لم يجهز</option>
+            <option ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
+            <option ${order.status === "بانتظار التصوير" ? "selected" : ""}>بانتظار التصوير</option>
+            <option ${order.status === "قيد التصوير" ? "selected" : ""}>قيد التصوير</option>
+            <option ${order.status === "تم التسليم" ? "selected" : ""}>تم التسليم</option>
           </select>
         </td>
         <td>
@@ -48,10 +47,9 @@ function addOrder() {
   if (!workType) return;
 
   orders.push({
-    id: orderNumber++,
-    doctor,
-    patient,
-    workType,
+    doctor: doctor,
+    patient: patient,
+    workType: workType,
     status: "قيد العمل"
   });
 
@@ -59,10 +57,9 @@ function addOrder() {
   renderOrders();
 }
 
-function changeStatus(index, newStatus) {
-  orders[index].status = newStatus;
+function changeStatus(index, status) {
+  orders[index].status = status;
   saveOrders();
-  renderOrders();
 }
 
 function deleteOrder(index) {
