@@ -1,75 +1,80 @@
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>AXIS Dental Laboratory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-function saveOrders() {
-  localStorage.setItem("orders", JSON.stringify(orders));
-}
+<aside class="sidebar">
+  <div class="logo">
+    <h1>AXIS</h1>
+    <p>Dental Laboratory</p>
+  </div>
 
-function renderOrders() {
-  const table = document.getElementById("ordersTable");
-  table.innerHTML = "";
+  <div class="menu">
+    <button onclick="showSection('home')">🏠 الرئيسية</button>
+    <button onclick="showSection('orders')">📋 الطلبات</button>
+    <button onclick="showSection('inventory')">📦 المخزون</button>
+    <button onclick="showSection('work')">🦷 مراحل العمل</button>
+    <button onclick="showSection('photo')">📷 التصوير</button>
+    <button onclick="showSection('tech')">👨‍🔬 الفنيون</button>
+    <button onclick="showSection('employees')">👥 الموظفون</button>
+    <button onclick="showSection('finance')">💰 الحسابات</button>
+    <button onclick="showSection('suppliers')">🚚 الموردون</button>
+    <button onclick="showSection('reports')">📊 التقارير</button>
+  </div>
+</aside>
 
-  orders.forEach((order, index) => {
-    table.innerHTML += `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${order.doctor}</td>
-        <td>${order.patient}</td>
-        <td>${order.workType}</td>
-        <td>
-          <select onchange="changeStatus(${index}, this.value)">
-            <option ${order.status === "استلام الحالة" ? "selected" : ""}>استلام الحالة</option>
-            <option ${order.status === "تصميم" ? "selected" : ""}>تصميم</option>
-            <option ${order.status === "تصوير" ? "selected" : ""}>تصوير</option>
-            <option ${order.status === "زركون" ? "selected" : ""}>زركون</option>
-            <option ${order.status === "بورسلان" ? "selected" : ""}>بورسلان</option>
-            <option ${order.status === "تشطيب" ? "selected" : ""}>تشطيب</option>
-            <option ${order.status === "جاهز للتسليم" ? "selected" : ""}>جاهز للتسليم</option>
-            <option ${order.status === "تم التسليم" ? "selected" : ""}>تم التسليم</option>
-            <option ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
-          </select>
-        </td>
-        <td>
-          <button onclick="deleteOrder(${index})">حذف</button>
-        </td>
-      </tr>
-    `;
-  });
+<main class="main">
 
-  document.getElementById("todayOrders").innerText = orders.length;
-}
+  <section id="home" class="section active">
+    <h2>الرئيسية</h2>
 
-function addOrder() {
-  const doctor = prompt("اسم الطبيب");
-  if (!doctor) return;
+    <div class="cards">
+      <div class="card"><h3>📋 إجمالي الطلبات</h3><p id="todayOrders">0</p></div>
+      <div class="card"><h3>⏳ قيد العمل</h3><p id="workingOrders">0</p></div>
+      <div class="card"><h3>✅ جاهزة للتسليم</h3><p id="readyOrders">0</p></div>
+      <div class="card"><h3>📦 مواد ناقصة</h3><p>0</p></div>
+    </div>
 
-  const patient = prompt("اسم المريض");
-  if (!patient) return;
+    <div class="welcome-box">
+      <h1>AXIS Dental Laboratory</h1>
+      <p>لوحة إدارة متكاملة لطلبات المختبر والمخزون والموظفين والحسابات</p>
+    </div>
+  </section>
 
-  const workType = prompt("نوع العمل");
-  if (!workType) return;
+  <section id="orders" class="section">
+    <h2>الطلبات</h2>
+    <button class="add-btn" onclick="addOrder()">➕ إضافة طلب جديد</button>
 
-  orders.push({
-    doctor,
-    patient,
-    workType,
-    status: "استلام الحالة"
-  });
+    <table>
+      <thead>
+        <tr>
+          <th>رقم الطلب</th>
+          <th>اسم الطبيب</th>
+          <th>اسم المريض</th>
+          <th>نوع العمل</th>
+          <th>الحالة</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody id="ordersTable"></tbody>
+    </table>
+  </section>
 
-  saveOrders();
-  renderOrders();
-}
+  <section id="inventory" class="section"><h2>المخزون</h2><p>سيتم إضافة المخزون هنا</p></section>
+  <section id="work" class="section"><h2>مراحل العمل</h2><p>سيتم إضافة مراحل العمل هنا</p></section>
+  <section id="photo" class="section"><h2>التصوير</h2><p>سيتم إضافة قسم التصوير هنا</p></section>
+  <section id="tech" class="section"><h2>الفنيون</h2><p>سيتم إضافة الفنيين هنا</p></section>
+  <section id="employees" class="section"><h2>الموظفون</h2><p>سيتم إضافة الموظفين هنا</p></section>
+  <section id="finance" class="section"><h2>الحسابات</h2><p>سيتم إضافة الحسابات هنا</p></section>
+  <section id="suppliers" class="section"><h2>الموردون</h2><p>سيتم إضافة الموردين هنا</p></section>
+  <section id="reports" class="section"><h2>التقارير</h2><p>سيتم إضافة التقارير هنا</p></section>
 
-function changeStatus(index, status) {
-  orders[index].status = status;
-  saveOrders();
-}
+</main>
 
-function deleteOrder(index) {
-  if (!confirm("حذف الطلب؟")) return;
-
-  orders.splice(index, 1);
-  saveOrders();
-  renderOrders();
-}
-
-renderOrders();
+<script src="app.js"></script>
+</body>
+</html>
